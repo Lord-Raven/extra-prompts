@@ -18,12 +18,14 @@
   "dependencies": {
     "@chub-ai/stages-ts": "^0.4.0",
     "@typescript-eslint/parser": "^7.4.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
     "vite-plugin-dts": "^3.9.1",
     "@react-three/fiber": "9.1.2",
     "@react-three/drei": "10.0.7",
-    "@react-three/rapier": "2.1.0"
+    "@react-three/rapier": "2.1.0",
+    "@types/three": "0.176.0",
+    "three": "0.176.0"
 
   },
   "engines": {
