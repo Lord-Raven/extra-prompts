@@ -2,7 +2,7 @@ import {ReactElement} from "react";
 import {StageBase, StageResponse, InitialData, Message} from "@chub-ai/stages-ts";
 import {LoadResponse} from "@chub-ai/stages-ts/dist/types/load";
 import {Canvas} from "@react-three/fiber";
-import { Sky, PointerLockControls, KeyboardControls } from "@react-three/drei";
+import {Sky, PointerLockControls, KeyboardControls} from "@react-three/drei";
 import {Physics} from "@react-three/rapier";
 import Player from "./Player";
 
@@ -35,6 +35,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             error: null,
             initState: null,
             chatState: null,
+            messageState: null
         };
     }
 
