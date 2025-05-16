@@ -14,8 +14,6 @@ type ChatStateType = any;
 
 export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateType, ConfigType> {
 
-    myInternalState: {[key: string]: any};
-
     constructor(data: InitialData<InitStateType, ChatStateType, MessageStateType, ConfigType>) {
         super(data);
         const {
@@ -27,12 +25,11 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             initState,
             chatState
         } = data;
-        this.myInternalState = messageState != null ? messageState : {'someKey': 'someValue'};
-        this.myInternalState['numUsers'] = Object.keys(users).length;
-        this.myInternalState['numChars'] = Object.keys(characters).length;
+        console.log('Extra Prompts constructor()');
     }
 
     async load(): Promise<Partial<LoadResponse<InitStateType, ChatStateType, MessageStateType>>> {
+        console.log('Extra Prompts load()');
         return {
             success: true,
             error: null,
@@ -42,8 +39,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
     }
 
     async setState(state: MessageStateType): Promise<void> {
+        console.log('Extra Prompts setState()');
         if (state != null) {
-            this.myInternalState = {...this.myInternalState, ...state};
         }
     }
 
@@ -53,9 +50,10 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
             anonymizedId,
             isBot
         } = userMessage;
+        
         return {
             stageDirections: null,
-            messageState: {'someKey': this.myInternalState['someKey']},
+            messageState: {},
             modifiedMessage: null,
             systemMessage: null,
             error: null,
@@ -71,7 +69,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
         } = botMessage;
         return {
             stageDirections: null,
-            messageState: {'someKey': this.myInternalState['someKey']},
+            messageState: {},
             modifiedMessage: null,
             error: null,
             systemMessage: null,
@@ -81,6 +79,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
 
 
     render(): ReactElement {
+        console.log('Extra Prompts render()');
         return (
             <KeyboardControls
             map={[
