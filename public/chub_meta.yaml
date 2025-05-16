@@ -18,10 +18,10 @@ visibility: 'PRIVATE'
 #   but leave the text input box.
 # 'FULLSCREEN' will make nothing below the header bar
 #   show except for your stage.
-# position: 'FULLSCREEN'
+position: 'FULLSCREEN'
 
 # Self-explanatory.
-# tags:
+tags:
  - 'Stage'
  - 'Game'
  - 'Add-On'
