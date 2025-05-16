@@ -90,7 +90,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 { name: "right", keys: ["ArrowRight", "d", "D"] },
                 { name: "jump", keys: ["Space"] },
             ]}>
-                <div style={{width: '100%', height: '100%'}}>
+                <div style={{width: '100vw', height: '100vh'}}>
                     <Canvas shadows camera={{ fov: 45 }}>
                         <Sky sunPosition={[100, 20, 100]} />
                         <ambientLight intensity={0.3} />
