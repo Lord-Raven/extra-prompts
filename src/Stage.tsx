@@ -81,7 +81,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
 
 
     render(): ReactElement {
-  return (
+        return (
             <KeyboardControls
             map={[
                 { name: "forward", keys: ["ArrowUp", "w", "W"] },
@@ -90,19 +90,19 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 { name: "right", keys: ["ArrowRight", "d", "D"] },
                 { name: "jump", keys: ["Space"] },
             ]}>
-            <Canvas shadows camera={{ fov: 45 }}>
-                <Sky sunPosition={[100, 20, 100]} />
-                <ambientLight intensity={0.3} />
-                <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
-                <Physics gravity={[0, -30, 0]}>
-                <mesh position={[0, -1, 0]}>
-                    <boxGeometry args={[10, 0.5, 10]} />
-                    <meshStandardMaterial color="gray" />
-                </mesh>
-                <Player />
-                </Physics>
-                <PointerLockControls />
-            </Canvas>
+                <Canvas shadows camera={{ fov: 45 }}>
+                    <Sky sunPosition={[100, 20, 100]} />
+                    <ambientLight intensity={0.3} />
+                    <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
+                    <Physics gravity={[0, -30, 0]}>
+                    <mesh position={[0, -1, 0]}>
+                        <boxGeometry args={[10, 0.5, 10]} />
+                        <meshStandardMaterial color="gray" />
+                    </mesh>
+                    <Player />
+                    </Physics>
+                    <PointerLockControls />
+                </Canvas>
             </KeyboardControls>
         )
     }
