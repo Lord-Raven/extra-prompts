@@ -1,6 +1,6 @@
 import { useLoader, useThree } from "@react-three/fiber";
 import { useMemo } from "react";
-import { RepeatWrapping, TextureLoader } from "three";
+import { NearestFilter, RepeatWrapping, TextureLoader } from "three";
 
 
 export enum CellType {
@@ -28,6 +28,7 @@ export class Cell {
         // Set up texture repeat and offset
         useMemo(() => {
             if (texture) {
+            texture.magFilter = NearestFilter;
             texture.wrapS = texture.wrapT = RepeatWrapping;
             texture.repeat.set(repeat[0], repeat[1]);
             texture.offset.set(offset[0], offset[1]);
@@ -45,7 +46,7 @@ export class Cell {
               );
             case CellType.Exterior:
               return (
-                <mesh key={`${x}-${z}`} position={[x * blockScale, -blockScale / 2, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
+                <mesh key={`${x}-${z}`} position={[x * blockScale, 0, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
                   <planeGeometry args={[blockScale, blockScale]} />
                   <meshStandardMaterial map={texture} />
                 </mesh>
@@ -54,12 +55,12 @@ export class Cell {
               return (
                 <>
                   {/* Floor */}
-                  <mesh key={`floor-${x}-${z}`} position={[x * blockScale, -blockScale / 2, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
+                  <mesh key={`floor-${x}-${z}`} position={[x * blockScale, 0, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
                     <planeGeometry args={[blockScale, blockScale]} />
                     <meshStandardMaterial map={texture} />
                   </mesh>
                   {/* Ceiling */}
-                  <mesh key={`ceiling-${x}-${z}`} position={[x * blockScale, blockScale, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
+                  <mesh key={`ceiling-${x}-${z}`} position={[x * blockScale, blockScale / 2, -z * blockScale]} rotation={[Math.PI / 2, 0, 0]}>
                     <planeGeometry args={[blockScale, blockScale]} />
                     <meshStandardMaterial map={texture} />
                   </mesh>
