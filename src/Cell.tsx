@@ -9,7 +9,7 @@ export enum CellType {
   Interior,
 }
 
-const blockScale = 4;
+const blockScale = 8;
 const ATLAS_SIZE = 32;
 function getUVOffset(textureIndex: number) {
   const x = textureIndex % ATLAS_SIZE;

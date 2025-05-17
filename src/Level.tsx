@@ -3,9 +3,9 @@ import { Cell, CellType } from "./Cell";
 const cells: Map<number, Cell> = new Map();
 
 // Populate the cell registry
-cells.set(0, new Cell(0, CellType.Exterior, 3));
-cells.set(1, new Cell(1, CellType.Interior, 5));
-cells.set(2, new Cell(2, CellType.Solid, 7));
+cells.set(0, new Cell(0, CellType.Exterior, 1));
+cells.set(1, new Cell(1, CellType.Interior, 2));
+cells.set(2, new Cell(2, CellType.Solid, 0));
 
 const map = [
   [2, 2, 2, 2, 2, 2, 2],
