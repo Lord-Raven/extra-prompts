@@ -12,8 +12,8 @@ export class Cell {
         switch (this.type) {
             case CellType.Solid:
               return (
-                <mesh key={`${x}-${z}`} position={[x, 1, -z]}>
-                  <boxGeometry args={[1, 2, 1]} />
+                <mesh key={`${x}-${z}`} position={[x, 0, -z]}>
+                  <boxGeometry args={[1, 1, 1]} />
                   <meshStandardMaterial color="gray" />
                 </mesh>
               );
@@ -33,7 +33,7 @@ export class Cell {
                     <meshStandardMaterial color="beige" />
                   </mesh>
                   {/* Ceiling */}
-                  <mesh key={`ceiling-${x}-${z}`} position={[x, 2, -z]} rotation={[-Math.PI / 2, 0, 0]}>
+                  <mesh key={`ceiling-${x}-${z}`} position={[x, 1, -z]} rotation={[-Math.PI / 2, 0, 0]}>
                     <planeGeometry args={[1, 1]} />
                     <meshStandardMaterial color="white" />
                   </mesh>

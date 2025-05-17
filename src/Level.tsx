@@ -3,16 +3,16 @@ import { Cell, CellType } from "./Cell";
 const cells: Map<number, Cell> = new Map();
 
 // Populate the cell registry
-cells.set(1, new Cell(1, CellType.Solid, 3));
-cells.set(2, new Cell(2, CellType.Exterior, 5));
-cells.set(3, new Cell(3, CellType.Interior, 7));
+cells.set(0, new Cell(0, CellType.Exterior, 3));
+cells.set(1, new Cell(1, CellType.Interior, 5));
+cells.set(2, new Cell(2, CellType.Solid, 7));
 
 const map = [
-  [1, 1, 1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 0, 0, 1],
-  [1, 0, 1, 0, 1, 0, 1],
-  [1, 0, 0, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1],
+  [2, 2, 2, 2, 2, 2, 2],
+  [2, 0, 0, 0, 0, 0, 2],
+  [2, 1, 2, 1, 2, 1, 2],
+  [2, 0, 0, 0, 0, 0, 2],
+  [2, 2, 2, 2, 2, 2, 2],
 ];
 
 export function Level() {

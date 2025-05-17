@@ -92,10 +92,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 { name: "jump", keys: ["Space"] },
             ]}>
                 <div style={{width: '100vw', height: '100vh'}}>
-                    <Canvas shadows camera={{ fov: 45 }}>
+                    <Canvas camera={{ fov: 45 }}>
                         <Sky sunPosition={[100, 20, 100]} />
-                        <ambientLight intensity={0.3} />
-                        <pointLight castShadow intensity={0.8} position={[100, 100, 100]} />
                         <Physics gravity={[0, -30, 0]}>
                         <mesh position={[0, -1, 0]}>
                             <boxGeometry args={[10, 0.5, 10]} />
