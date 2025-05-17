@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { useKeyboardControls } from "@react-three/drei";
 import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
+import { RigidBody } from "@react-three/rapier";
 
 export default function Player() {
   const { camera } = useThree();
@@ -32,9 +33,11 @@ export default function Player() {
   });
 
   return (
-    <mesh ref={playerRef} position={[0, 1, 0]}>
-      <sphereGeometry args={[0.5]} />
-      <meshStandardMaterial color="red" />
-    </mesh>
+    <RigidBody colliders="ball" position={[0, 1, 0]} mass={1}>
+      <mesh ref={playerRef}>
+        <sphereGeometry args={[0.5]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
+    </RigidBody>
   );
 }

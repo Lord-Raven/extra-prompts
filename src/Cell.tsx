@@ -1,4 +1,5 @@
 import { useLoader, useThree } from "@react-three/fiber";
+import { RigidBody } from "@react-three/rapier";
 import { useMemo } from "react";
 import { NearestFilter, RepeatWrapping, TextureLoader } from "three";
 
@@ -39,10 +40,12 @@ export class Cell {
         switch (this.type) {
             case CellType.Solid:
               return (
-                <mesh key={`${x}-${z}`} position={[x * blockScale, 0, -z * blockScale]}>
-                  <boxGeometry args={[blockScale, blockScale, blockScale]} />
-                  <meshStandardMaterial map={texture} />
-                </mesh>
+                <RigidBody type="fixed" colliders="cuboid" key={`${x}-${z}`}>
+                  <mesh position={[x * blockScale, 0, -z * blockScale]}>
+                    <boxGeometry args={[blockScale, blockScale, blockScale]} />
+                    <meshStandardMaterial map={texture} />
+                  </mesh>
+                </RigidBody>
               );
             case CellType.Exterior:
               return (
