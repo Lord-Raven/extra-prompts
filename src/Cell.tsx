@@ -22,7 +22,7 @@ export class Cell {
     constructor(public id: number, public type: CellType, public textureIndex: number) {}
     render(x: number, z: number) {
 
-        const texture = useLoader(TextureLoader, "/textureAtlas.png");
+        const texture = useLoader(TextureLoader, "textures/textureAtlas.png");
         const { offset, repeat } = useMemo(() => getUVOffset(this.textureIndex), [this.textureIndex]);
 
         // Set up texture repeat and offset
