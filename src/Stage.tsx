@@ -5,6 +5,7 @@ import {Canvas} from "@react-three/fiber";
 import {Sky, PointerLockControls, KeyboardControls} from "@react-three/drei";
 import {Physics} from "@react-three/rapier";
 import Player from "./Player";
+import { Level } from "./Level";
 
 
 type MessageStateType = any;
@@ -101,6 +102,7 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                             <meshStandardMaterial color="gray" />
                         </mesh>
                         <Player />
+                        <Level />
                         </Physics>
                         <PointerLockControls />
                     </Canvas>

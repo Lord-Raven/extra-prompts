@@ -14,17 +14,6 @@ export default function Player() {
   const right = useKeyboardControls((state) => state.right);
   const jump = useKeyboardControls((state) => state.jump);
 
-  // Player position
-  useEffect(() => {
-    if (playerRef.current) {
-      camera.position.set(
-        playerRef.current.position.x,
-        playerRef.current.position.y + 1,
-        playerRef.current.position.z
-      );
-    }
-  }, []);
-
   // Update movement each frame
   useFrame(() => {
     if (playerRef.current) {
@@ -34,6 +23,11 @@ export default function Player() {
       if (left) playerRef.current.position.x -= speed;
       if (right) playerRef.current.position.x += speed;
       if (jump) playerRef.current.position.y += speed; // Basic jumping
+      camera.position.set(
+        playerRef.current.position.x,
+        playerRef.current.position.y + 1,
+        playerRef.current.position.z
+      );
     }
   });
 
