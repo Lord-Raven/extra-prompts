@@ -45,7 +45,7 @@ export class Cell {
               );
             case CellType.Exterior:
               return (
-                <mesh key={`${x}-${z}`} position={[x * blockScale, 0, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
+                <mesh key={`${x}-${z}`} position={[x * blockScale, -blockScale / 2, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
                   <planeGeometry args={[blockScale, blockScale]} />
                   <meshStandardMaterial map={texture} />
                 </mesh>
@@ -54,7 +54,7 @@ export class Cell {
               return (
                 <>
                   {/* Floor */}
-                  <mesh key={`floor-${x}-${z}`} position={[x * blockScale, 0, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
+                  <mesh key={`floor-${x}-${z}`} position={[x * blockScale, -blockScale / 2, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
                     <planeGeometry args={[blockScale, blockScale]} />
                     <meshStandardMaterial map={texture} />
                   </mesh>
