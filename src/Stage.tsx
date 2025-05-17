@@ -94,11 +94,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                 <div style={{width: '100vw', height: '100vh'}}>
                     <Canvas camera={{ fov: 45 }}>
                         <Sky sunPosition={[100, 20, 100]} />
+                        <ambientLight intensity={1.0} />
                         <Physics gravity={[0, -30, 0]}>
-                        <mesh position={[0, -1, 0]}>
-                            <boxGeometry args={[10, 0.5, 10]} />
-                            <meshStandardMaterial color="gray" />
-                        </mesh>
                         <Player />
                         <Level />
                         </Physics>
