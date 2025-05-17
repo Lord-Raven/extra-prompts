@@ -5,7 +5,11 @@
 project_name: "Extra Prompts"
 
 # A short tagline to show in search.
-tagline: "Just."
+tagline: "All a stage can be."
+
+creator_notes: "
+A dynamic doom-like.
+"
 
 # 'PUBLIC', 'PRIVATE', or 'UNLISTED'.
 visibility: 'PRIVATE'
