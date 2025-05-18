@@ -33,7 +33,7 @@ export default function Player() {
   });
 
   return (
-    <RigidBody colliders="ball" position={[0, 1, 0]} mass={1}>
+    <RigidBody colliders="ball" position={[0, 1, 0]} mass={2}>
       <mesh ref={playerRef}>
         <sphereGeometry args={[0.5]} />
         <meshStandardMaterial color="red" />
