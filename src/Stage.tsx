@@ -6,6 +6,7 @@ import {Sky, PointerLockControls, KeyboardControls} from "@react-three/drei";
 import {Physics} from "@react-three/rapier";
 import Player from "./Player";
 import { Level } from "./Level";
+import { generateMap } from "./Generator";
 
 
 type MessageStateType = any;
@@ -31,6 +32,9 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
 
     async load(): Promise<Partial<LoadResponse<InitStateType, ChatStateType, MessageStateType>>> {
         console.log('Extra Prompts load()');
+
+        generateMap(this);
+
         return {
             success: true,
             error: null,
@@ -95,11 +99,8 @@ export class Stage extends StageBase<InitStateType, ChatStateType, MessageStateT
                     <Canvas camera={{ fov: 45 }}>
                         <Sky sunPosition={[100, 20, 100]} />
                         <ambientLight intensity={1.0} />
-                        <Physics gravity={[0, -30, 0]}>
                         <Player />
                         <Level />
-                        </Physics>
-                        <PointerLockControls />
                     </Canvas>
                 </div>
             </KeyboardControls>

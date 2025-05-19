@@ -1,7 +1,6 @@
-import { useLoader, useThree } from "@react-three/fiber";
-import { RigidBody } from "@react-three/rapier";
-import { useMemo } from "react";
-import { NearestFilter, RepeatWrapping, TextureLoader } from "three";
+import { useLoader } from "@react-three/fiber";
+import { Block } from "@react-three/fiber/dist/declarations/src/core/utils";
+import { NearestFilter, RepeatWrapping, Texture, TextureLoader } from "three";
 
 
 export enum CellType {
@@ -10,66 +9,145 @@ export enum CellType {
   Interior,
 }
 
-const blockScale = 8;
+export enum BlockType {
+  Floor,
+  Ceiling,
+  NorthWall,
+  EastWall,
+  SouthWall,
+  WestWall,
+  UpperNorthWall,
+  UpperEastWall,
+  UpperSouthWall,
+  UpperWestWall
+}
+
+export interface Block {
+  type: BlockType;
+  textureIndex: number;
+}
+
+export const BLOCK_SIZE = 8;
 const ATLAS_SIZE = 32;
-function getUVOffset(textureIndex: number) {
+
+// Texture cache
+const textureCache = new Map<number, Texture>();
+
+function getTexture(textureIndex: number) {
+  if (textureCache.has(textureIndex)) {
+    return textureCache.get(textureIndex)!;
+  }
+
+  const texture = useLoader(TextureLoader, "textures/textureAtlas.png").clone();
   const x = textureIndex % ATLAS_SIZE;
   const y = Math.floor(textureIndex / ATLAS_SIZE);
   const size = 1 / ATLAS_SIZE;
-  return { offset: [x * size, 1 - (y + 1) * size], repeat: [size, size] };
+
+  texture.magFilter = NearestFilter;
+  texture.wrapS = texture.wrapT = RepeatWrapping;
+  texture.repeat.set(size, size);
+  texture.offset.set(x * size, 1 - (y + 1) * size);
+  texture.needsUpdate = true;
+
+  textureCache.set(textureIndex, texture);
+
+  return texture;
 }
 
 export class Cell {
-    constructor(public id: number, public type: CellType, public textureIndex: number) {}
-    render(x: number, z: number) {
+  public blockMap: Block[]
 
-        const texture = useLoader(TextureLoader, "textures/textureAtlas.png");
-        const { offset, repeat } = useMemo(() => getUVOffset(this.textureIndex), [this.textureIndex]);
+  constructor(public id: number, public type: CellType, blockProps: Record<string, number>) {
+    this.blockMap = Object.entries(blockProps).map(([key, textureIndex]) => ({
+        type: (BlockType as any)[key],
+        textureIndex,
+      }));
+  }
+}
 
-        // Set up texture repeat and offset
-        useMemo(() => {
-            if (texture) {
-            texture.magFilter = NearestFilter;
-            texture.wrapS = texture.wrapT = RepeatWrapping;
-            texture.repeat.set(repeat[0], repeat[1]);
-            texture.offset.set(offset[0], offset[1]);
-            texture.needsUpdate = true;
-            }
-        }, [texture, offset, repeat]);
+// Functional component for rendering a cell mesh
+export function RenderedCell({ cell, x, z }: { cell: Cell; x: number; z: number }) {
 
-        switch (this.type) {
-            case CellType.Solid:
-              return (
-                <RigidBody type="fixed" colliders="cuboid" key={`${x}-${z}`}>
-                  <mesh position={[x * blockScale, 0, -z * blockScale]}>
-                    <boxGeometry args={[blockScale, blockScale, blockScale]} />
-                    <meshStandardMaterial map={texture} />
-                  </mesh>
-                </RigidBody>
-              );
-            case CellType.Exterior:
-              return (
-                <mesh key={`${x}-${z}`} position={[x * blockScale, 0, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
-                  <planeGeometry args={[blockScale, blockScale]} />
-                  <meshStandardMaterial map={texture} />
-                </mesh>
-              );
-            case CellType.Interior:
-              return (
-                <>
-                  {/* Floor */}
-                  <mesh key={`floor-${x}-${z}`} position={[x * blockScale, 0, -z * blockScale]} rotation={[-Math.PI / 2, 0, 0]}>
-                    <planeGeometry args={[blockScale, blockScale]} />
-                    <meshStandardMaterial map={texture} />
-                  </mesh>
-                  {/* Ceiling */}
-                  <mesh key={`ceiling-${x}-${z}`} position={[x * blockScale, blockScale / 2, -z * blockScale]} rotation={[Math.PI / 2, 0, 0]}>
-                    <planeGeometry args={[blockScale, blockScale]} />
-                    <meshStandardMaterial map={texture} />
-                  </mesh>
-                </>
-              );
+  return (
+    <>
+      {cell.blockMap.map(block => {
+        switch (block.type) {
+          case BlockType.NorthWall:
+            return (
+              <mesh key={`${x}-${z}-north-wall`} position={[x * BLOCK_SIZE, BLOCK_SIZE / 2, -z * BLOCK_SIZE - BLOCK_SIZE / 2]} rotation={[0, Math.PI, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.EastWall:
+            return (
+              <mesh key={`${x}-${z}-east-wall`} position={[x * BLOCK_SIZE + BLOCK_SIZE / 2, BLOCK_SIZE / 2, -z * BLOCK_SIZE]} rotation={[0, Math.PI / 2, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.SouthWall:
+            return (
+              <mesh key={`${x}-${z}-south-wall`} position={[x * BLOCK_SIZE, BLOCK_SIZE / 2, -z * BLOCK_SIZE + BLOCK_SIZE / 2]} rotation={[0, 0, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.WestWall:
+            return (
+              <mesh key={`${x}-${z}-west-wall`} position={[x * BLOCK_SIZE - BLOCK_SIZE / 2, BLOCK_SIZE / 2, -z * BLOCK_SIZE]} rotation={[0, -Math.PI / 2, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.Floor:
+            return (
+              <mesh key={`floor-${x}-${z}-floor`} position={[x * BLOCK_SIZE, 0, -z * BLOCK_SIZE]} rotation={[-Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.Ceiling:
+            return (
+              <mesh key={`ceiling-${x}-${z}-ceiling`} position={[x * BLOCK_SIZE, BLOCK_SIZE, -z * BLOCK_SIZE]} rotation={[Math.PI / 2, 0, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.UpperNorthWall:
+            return (
+              <mesh key={`${x}-${z}-upper-north-wall`} position={[x * BLOCK_SIZE, BLOCK_SIZE + BLOCK_SIZE / 2, -z * BLOCK_SIZE - BLOCK_SIZE / 2]} rotation={[0, Math.PI, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.UpperEastWall:
+            return (
+              <mesh key={`${x}-${z}-upper-east-wall`} position={[x * BLOCK_SIZE + BLOCK_SIZE / 2, BLOCK_SIZE + BLOCK_SIZE / 2, -z * BLOCK_SIZE]} rotation={[0, Math.PI / 2, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.UpperSouthWall:
+            return (
+              <mesh key={`${x}-${z}-upper-south-wall`} position={[x * BLOCK_SIZE, BLOCK_SIZE + BLOCK_SIZE / 2, -z * BLOCK_SIZE + BLOCK_SIZE / 2]} rotation={[0, 0, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          case BlockType.UpperWestWall:
+            return (
+              <mesh key={`${x}-${z}-upper-west-wall`} position={[x * BLOCK_SIZE - BLOCK_SIZE / 2, BLOCK_SIZE + BLOCK_SIZE / 2, -z * BLOCK_SIZE]} rotation={[0, -Math.PI / 2, 0]}>
+                <planeGeometry args={[BLOCK_SIZE, BLOCK_SIZE]} />
+                <meshStandardMaterial map={getTexture(block.textureIndex)} />
+              </mesh>
+            );
+          default:
+            return (
+              <></>
+            );
         }
-        return null;
-    }
+      })}
+    </>
+  );
 }
