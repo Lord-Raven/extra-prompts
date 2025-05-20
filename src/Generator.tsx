@@ -30,7 +30,7 @@ export function buildMapPrompt(stage: Stage): string {
             ` 2 1 1 1 1 1 0 0 0 2 1 1 1 1 1 1 1 1 1 2` +
             ` 2 1 1 1 1 2 0 0 0 1 1 1 1 1 1 1 1 1 1 2` +
             ` 2 1 1 1 1 2 0 0 0 2 1 1 1 1 1 1 1 1 1 2` +
-            ` 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 2 2 2 2 2`) +
+            ` 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 2 2 2 2 2`)+
         buildSection('Current Setting', 'A massive urban warehouse') +
         buildSection('Current Instruction',
             `You are doing critical prep work for a roleplaying game. Instead of narrating, you will first use this planning response to construct a 2D map of the area described in CURRENT SETTING, using a 20x20 grid 
