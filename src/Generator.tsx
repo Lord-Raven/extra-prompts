@@ -10,28 +10,28 @@ export function buildMapPrompt(stage: Stage): string {
         buildSection('Purpose', 'You are a game engine crafting 2D grid-based game maps for a dynamic world. You will analyze the setting and scenario to generate a formatted map that suits the situation.') +
         buildSection('Tiles', '\n' +
             `0: Outdoor plaza\n1: Interior room\n2: Solid wall\n`) +
-        buildSection('Example Map', '\n' +
-            ` 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 2 2 2 2 2` +
-            ` 2 1 1 1 1 2 0 0 0 2 1 1 1 1 2 1 1 1 1 2` +
-            ` 2 1 1 1 1 1 0 0 0 2 1 1 1 1 1 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 2 1 1 1 1 2 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 1 1 1 1 1 2 1 1 1 1 2` +
-            ` 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 2 2 1 2 2` +
-            ` 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0` +
-            ` 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0` +
-            ` 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0` +
-            ` 2 2 2 1 2 2 0 0 0 2 2 1 2 2 2 2 2 2 2 2` +
-            ` 2 1 1 1 1 2 0 0 0 2 1 1 1 1 2 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 1 1 1 1 1 2 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 2 1 1 1 1 1 1 1 1 1 2` +
-            ` 2 2 2 2 2 2 0 0 0 2 1 1 1 1 2 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 2 1 1 1 1 2 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 2 2 2 2 2 2 2 2 2 2 2` +
-            ` 2 1 1 1 1 1 0 0 0 2 1 1 1 1 1 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 1 1 1 1 1 1 1 1 1 1 2` +
-            ` 2 1 1 1 1 2 0 0 0 2 1 1 1 1 1 1 1 1 1 2` +
-            ` 2 2 2 2 2 2 0 0 0 2 2 2 2 2 2 2 2 2 2 2`)+
-        buildSection('Current Setting', 'A massive urban warehouse') +
+        buildSection('Example Map - City street crossroad with shops', '\n' +
+            `22222200022222222222\n` +
+            `21111200021111211112\n` +
+            `21111100021111111112\n` +
+            `21111200021111211112\n` +
+            `21111200011111211112\n` +
+            `22222200022222222122\n` +
+            `00000000000000000000\n` +
+            `00000000000000000000\n` +
+            `00000000000000000000\n` +
+            `22212200022122222222\n` +
+            `21111200021111211112\n` +
+            `21111200011111211112\n` +
+            `21111200021111111112\n` +
+            `22222200021111211112\n` +
+            `21111200021111211112\n` +
+            `21111200022222222222\n` +
+            `21111100021111111112\n` +
+            `21111200011111111112\n` +
+            `21111200021111111112\n` +
+            `22222200022222222222\n`)+
+        buildSection('Current Setting', 'A large urban warehouse') +
         buildSection('Current Instruction',
             `You are doing critical prep work for a roleplaying game. Instead of narrating, you will first use this planning response to construct a 2D map of the area described in CURRENT SETTING, using a 20x20 grid 
             of characters representing known TILES. Simply output this grid of twenty lines, then end this response.\n`) +
